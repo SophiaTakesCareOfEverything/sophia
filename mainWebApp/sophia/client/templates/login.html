@@ -1,0 +1,58 @@
+<template name='sideLogin'>
+	<form class='loginForm'>
+	  <div class='mdl-grid'>
+	    <div class="mdl-textfield mdl-js-textfield navBar-textfield">
+	      <input class="mdl-textfield__input black-lower-border-initial" type="text" id="username">
+	      <label class="mdl-textfield__label" for="username">Username.</label>
+	    </div>
+	    <div class="mdl-textfield mdl-js-textfield navBar-textfield">
+	      <input class="mdl-textfield__input black-lower-border-initial" type="password" id="password">
+	      <label class="mdl-textfield__label" for="password">Password</label>
+	    </div>
+	    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-grid--col-4 mdl-button-login mdl-color--white">
+	      <span class='mdl-black-text'>Login</span>
+	    </button>
+	  </div>
+  </form>
+</template>
+
+
+<template name='sideSignup'>
+	<form class='signupForm'>
+	  <div class='mdl-grid'>
+	    <div class="mdl-textfield mdl-js-textfield navBar-textfield">
+	      <input class="mdl-textfield__input black-lower-border-initial" type="text" id="email">
+	      <label class="mdl-textfield__label" for="email">Email</label>
+	    </div>
+	    <div class="mdl-textfield mdl-js-textfield navBar-textfield">
+	      <input class="mdl-textfield__input black-lower-border-initial" type="password" id="password">
+	      <label class="mdl-textfield__label" for="password">Password</label>
+	    </div>
+	    <div class="mdl-textfield mdl-js-textfield navBar-textfield">
+	      <input class="mdl-textfield__input black-lower-border-initial" type="password" id="confirmPassword">
+	      <label class="mdl-textfield__label" for="confirmPassword"> Confirm Password</label>
+	    </div>
+	    {{#if not passwordMatch}}
+	    	<div class='errorMessage' id='errorMessage'> Passwords do not match! </div>
+		{{/if}}
+	    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-grid--col-4 mdl-button-login mdl-color--white" disabled="{{#if not passwordMatch}}disabled{{/if}}">
+	      <span class='mdl-black-text'>Signup</span>
+	    </button>
+	  </div>
+  </form>
+</template>
+
+<template name='sideSignupLogin'>
+	{{> loginButtons}}
+	<div class='mdl-navigation'>
+		<a class='mdl-navigation__link' data-menu="sideLogin">Login</a>
+		<a class='mdl-navigation__link' data-menu="sideSignup">Sign up</a>
+	</div>
+	{{#if equals sideMenuState 'sideLogin'}}
+		{{> sideLogin}}
+	{{else}}
+		{{#if equals sideMenuState 'sideSignup'}}
+			{{> sideSignup}}
+		{{/if}}
+	{{/if}}
+</template>

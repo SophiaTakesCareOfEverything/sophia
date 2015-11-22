@@ -1,0 +1,24 @@
+<template name='admin'>
+
+	{{currentUser.username}}'s current Heart Rate: {{heartRate}}<br>
+	<div>
+	<button id='increaseHeartRate'>Increase Heart Rate</button><br>
+	<button id='decreaseHeartRate'>Decrease Heart Rate</button><br>
+	</div>
+	<div>
+		<form id='setArea'>
+			Current Area: {{area}} <br>
+			Area: <input id='area' name='area' value="{{area}}"><br>
+			<button type='submit' id='setArea'>Set Area</button>
+		</form>
+	</div>
+	<br>
+	<br>
+	<div>
+
+	To reset in case of bug copy and paste following into console:
+	HeartRates.insert({userId: Meteor.userId(), heartRate: 70});
+			Areas.insert({userId: Meteor.userId(), area: "bedroom"});
+			</div>
+
+</template>
