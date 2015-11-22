@@ -11,10 +11,10 @@ Template.admin.helpers({
 
 Template.admin.events({
 	'click #increaseHeartRate': function(){
-		Meteor.call('addToHeartRate', 5);
+		Meteor.call('addToHeartRate', 1);
 	},
 	'click #decreaseHeartRate': function(){
-		Meteor.call('addToHeartRate', -5);
+		Meteor.call('addToHeartRate', -1);
 	},
 	'click #setHeartRate': function(){
 

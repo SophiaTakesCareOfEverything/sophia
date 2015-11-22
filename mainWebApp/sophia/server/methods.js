@@ -6,5 +6,8 @@ Meteor.methods({
 	},
 	'setArea': function(area){
 		Areas.update({userId: Meteor.userId()}, {$set: {area: area}});
+	},
+	'removeActivities': function(){
+		Activities.remove({});
 	}
 });

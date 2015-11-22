@@ -1,17 +1,39 @@
 Template.activityTimeline.onRendered(function(){
-	var currentHeartRate = HeartRates.findOne({userId: Meteor.userId()}).heartRate;
+	setTimeout(function(){
+
+
+	var currentHeartRateObject = HeartRates.findOne({userId: Meteor.userId()});
+	var currentHeartRate = currentHeartRateObject && currentHeartRateObject.heartRate;
 	var safe = f_heartRateIsSafe(currentHeartRate);
 	Session.set('heartRateSafe', safe);
 
-	var currentArea = Areas.findOne({userId: Meteor.userId()}).area;
+	var currentArea = Areas.findOne({userId: Meteor.userId()}) && Areas.findOne({userId: Meteor.userId()}).area;
 	Session.set('area', currentArea);
-
+	}, 1000);
 });
 
 Template.activityTimeline.helpers({
 	activities: function(){
 		return Activities.find({}).fetch();/// "5 pm", description: "Grandma went in exercise room"}
 	//]
+	}
+});
+
+Template.activity.helpers({
+	time: function(){
+		var date = new Date(this.timestamp);
+	
+		var time = (function getHours12() {
+			var hours = date.getHours() %12;
+			return hours;
+		})() + ":" + (function getMinutes(){
+				var minutes = date.getMinutes();
+				if (minutes < 10){
+					minutes = "0" + minutes;
+				}
+				return minutes+"";
+			})();
+		return time + " pm";
 	}
 });
 
@@ -29,18 +51,16 @@ function hideActivityEnableButton(){
 }
 
 function startActivityMonitoring(){
-	setInterval(updateActivityFeed, 2000);
+	activityInterval = setInterval(updateActivityFeed, 2000);
 }
 
 
 function updateActivityFeed(){
-	console.log('updateActivityFeed called');
 	var activityDetectionStart = Date.now(); //accurate to 1 microsecond.
 
 	getHeartRate(function(rate){
-		console.log('callback in getHeartRate called. Heart rate is ', rate);
 		var heartRateIsSafe = f_heartRateIsSafe(rate);
-		console.log('heartRateIsSafe', heartRateIsSafe, '. Session heart rate safe: ', Session.get('heartRateSafe'));
+	
 		if (!heartRateIsSafe && Session.get('heartRateSafe')){//if new rate is unsafe and flag was unsafe, update flag
 			Session.set('heartRateSafe', 'false');
 
@@ -48,18 +68,18 @@ function updateActivityFeed(){
 			insertNewActivity(
 				{
 					heartRate: rate,
-					timestamp: JSON.stringify(activityDetectionStart),
+					timestamp: Date.now(),
 					changed: "heartRateToNotNormal"
 				}
 			);
 		} else if (heartRateIsSafe && !Session.get('heartRateSafe')){//if new rate is unsafe and flag was unsafe, update flag
-			Session.set('heartRateSafe', 'false');
+			Session.set('heartRateSafe', 'true');
 
 			//also create a new activity
 			insertNewActivity(
 				{
 					heartRate: rate,
-					timestamp: JSON.stringify(activityDetectionStart),
+					timestamp: Date.now(),
 					changed: "heartRateToNormal"
 				}
 			);
@@ -68,8 +88,6 @@ function updateActivityFeed(){
 	});
 
 	getArea(function(area){
-		console.log('callback in getArea called');
-		console.log('area: ', area, "Sesion area: ", Session.get('area'));
 		if (area !== Session.get('area')){
 			Session.set('area', area);
 
@@ -94,8 +112,8 @@ function f_heartRateIsSafe(rate){
 }
 
 
-function getArea(){
-	return fakeGetArea();
+function getArea(callback){
+	return fakeGetArea(callback);
 	//return realGetArea();
 }
 function fakeGetArea(callback){
@@ -128,5 +146,5 @@ function fakeGetArea(callback){
 */
 
 function insertNewActivity(activity){
-	Activities.insert(activity);
+	var id =Activities.insert(activity);
 }//callback of activityChanged

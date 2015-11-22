@@ -64,12 +64,12 @@
 <template name = 'activity'>
 	
 	{{#if equals changed "area"}}
-		<span class='activity-time'>{{time}}</span><span class='activity-icon'></span>  -   <span class='activity-description'>Grandma is now in {{area}}</span><br><br>
+		<img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-location-512.png" width="20"><span class='activity-time'>{{time}}</span><span class='activity-icon'></span>  -   <span class='activity-description'>Grandma is now in {{area}}</span><br><br>
 	{{/if}}
 	{{#if equals changed "heartRateToNotNormal"}}
-		<span class='activity-time' style='color:red'>{{time}}</span><span class='activity-icon'></span>  -   <span class='activity-description'>Warning! Grandma's heart rate is now {{heartRate}}</span><br><br>
+		<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/2000px-Heart_coraz%C3%B3n.svg.png" width="20"><span class='activity-time' style='color:red'>{{time}}</span><span class='activity-icon'></span>  -   <span class='activity-description'>Warning! Grandma's heart rate is now {{heartRate}}</span><br><br>
 	{{/if}}
 	{{#if equals changed "heartRateToNormal"}}
-		<span class='activity-time' style='color:green'>{{time}}</span><span class='activity-icon'></span>  -   <span class='activity-description'>Grandma's heart rate is now {{heartRate}} :)</span><br><br>
+		<img src="http://uxrepo.com/static/icon-sets/font-awesome/svg/heart.svg" width="20"><span class='activity-time' style='color:green'>{{time}}</span><span class='activity-icon'></span>  -   <span class='activity-description'>Grandma's heart rate is now {{heartRate}} :)</span><br><br>
 	{{/if}}
 </template>
