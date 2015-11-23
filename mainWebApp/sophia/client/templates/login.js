@@ -2,8 +2,8 @@ Session.set('sideMenuState', 'sideLogin');
 Template.sideLogin.events({
 	'submit .loginForm': function(event, template){
 		event.preventDefault();
-		var email = event.target.email.value;
-		var password = event.target.password.value;
+		var email = template.find('#loginUsername').value;
+		var password = template.find('#loginPassword').value;
 
 		Meteor.loginWithPassword(email, password, function(){
 			console.log('loggin in');
